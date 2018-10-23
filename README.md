@@ -21,4 +21,4 @@ Returns series, a dictionary containing the elapsed time (in seconds), the 12 di
     series = pre_processing.load_raw_spreadsheet(filepath)
     series.keys()
 
-    dict_keys(['stroke_phase_def', 'true_time', 'elapsed_time', 'swim_class_def', 'stroke_phase', 'sensor_vals', 'cols', 'swim_class'])
+    dict_keys(['subject_cat', 'stroke_phase_def', 'true_time', 'elapsed_time', 'swim_class_def', 'stroke_phase', 'sensor_vals', 'cols', 'swim_class'])
