@@ -50,11 +50,8 @@ def load_raw_spreadsheet(filepath):
     # cast time array to a datetime.time object
     time_arr = np.array(df['time'].apply(lambda x: x.time()).values)
     series = {'true_time': time_arr, 'elapsed_time': elapsed_time, 'cols': list(df.columns[1:-2])}
-<<<<<<< HEAD
     series['sensor_vals'] = np.array(df.iloc[:,1:-2].values).T
-=======
     series['sensor_vals'] = df[GYRO_COLS]
->>>>>>> 7e4ab892debd5cf4f3080dfa56ceec7fe9201d70
     series['swim_class'] = np.array(df['Swim class'].values)
     series['swim_class_def'] = {1: 'Not swimming', 2: 'Swimming', 3: 'Push off event', 4: 'Turn event'}
     series['stroke_phase_def'] = {0: 'No event', 1: 'R Hand Entry', 2: 'R Start of Down Sweep', 3: 'R Catch', 4: 'R Recovery',
@@ -122,4 +119,4 @@ def chunk_series(series, sentence_length=120):
     raise NotImplementedError('Chuck series not yet created.')
 
 def _format_time(time_str):
-    return datetime.strptime(time_str, "'%H:%M:%S.%f'")
+    return datetime.strptime(time_str, "'%I:%M:%S.%f'")
