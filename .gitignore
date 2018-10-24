@@ -1,3 +1,6 @@
+# local settings
+_settings.py
+
 # local data dir
 local_data/
 
