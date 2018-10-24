@@ -7,6 +7,13 @@ import pandas as pd
 from datetime import datetime
 
 
+GYRO_COLS = [
+    'R Wrist X Gyro', 'R Wrist Y Gyro', 'R Wrist Z Gyro', 'R Wrist X Accel',
+    'R Wrist Y Accel', 'R Wrist Z Accel', 'Back X Gyro', 'Back Y Gyro', 'Back Z Gyro',
+    'Back X Accel', 'Back Y Accel', 'Back Z Accel'
+]
+
+
 def load_raw_spreadsheet(filepath):
     """
     Load spreadsheet
@@ -34,13 +41,20 @@ def load_raw_spreadsheet(filepath):
                        names=['time', 'R Wrist X Gyro', 'R Wrist Y Gyro', 'R Wrist Z Gyro', 'R Wrist X Accel',
                               'R Wrist Y Accel', 'R Wrist Z Accel', 'Back X Gyro', 'Back Y Gyro', 'Back Z Gyro',
                               'Back X Accel', 'Back Y Accel', 'Back Z Accel', 'Swim class', 'Stroke class'])
+
+    ## FIXME: 12hr time format will break if activity spans midday or midnight??
+
     df['time'] = df['time'].apply(lambda x: _format_time(x))
-    elapsed_time = df['time'].apply(lambda x: x - df['time'][0])
-    elapsed_time = elapsed_time.apply(lambda x: x.total_seconds())
+    elapsed_time = df['time'].apply(lambda x: (x - df['time'][0]).total_seconds())
     elapsed_time = np.array(elapsed_time.values)
-    time_arr = np.array(df['time'].values)
+    # cast time array to a datetime.time object
+    time_arr = np.array(df['time'].apply(lambda x: x.time()).values)
     series = {'true_time': time_arr, 'elapsed_time': elapsed_time, 'cols': list(df.columns[1:-2])}
+<<<<<<< HEAD
     series['sensor_vals'] = np.array(df.iloc[:,1:-2].values).T
+=======
+    series['sensor_vals'] = df[GYRO_COLS]
+>>>>>>> 7e4ab892debd5cf4f3080dfa56ceec7fe9201d70
     series['swim_class'] = np.array(df['Swim class'].values)
     series['swim_class_def'] = {1: 'Not swimming', 2: 'Swimming', 3: 'Push off event', 4: 'Turn event'}
     series['stroke_phase_def'] = {0: 'No event', 1: 'R Hand Entry', 2: 'R Start of Down Sweep', 3: 'R Catch', 4: 'R Recovery',
@@ -109,6 +123,3 @@ def chunk_series(series, sentence_length=120):
 
 def _format_time(time_str):
     return datetime.strptime(time_str, "'%H:%M:%S.%f'")
-
-
-

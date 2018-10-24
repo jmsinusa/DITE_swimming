@@ -3,7 +3,12 @@ Functions for exploring the data
 """
 
 import pre_processing
+import os
+import settings
+from matplotlib import pyplot as plt
+import seaborn as sns
+
 
 if __name__ == "__main__":
-    filepath = '/home/james/projects/dite_swim_data/raw_data/20181020-Swimming Classification Data.xlsx'
+    filepath = os.path.join(settings.LOCAL_DATA_DIR, '20181020_preliminary.xlsx')
     series = pre_processing.load_raw_spreadsheet(filepath)
